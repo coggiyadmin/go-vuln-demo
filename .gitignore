@@ -1,0 +1,10 @@
+# Go build artifacts
+*.o
+*.so
+*.exe
+*.test
+/bin/
+
+# editor / backup
+*.swp
+*.bak

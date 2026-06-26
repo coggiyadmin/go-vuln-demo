@@ -1,5 +1,4 @@
-// Combination #4 — ASYNC TAINT × DESERIALIZE (CWE-502, Go). Taint carried through a
-// goroutine + channel, then reaches the sink. NO finding = FALSE NEGATIVE.
+// Combination #4 — ASYNC taint × DESERIALIZE (CWE-502, Go).
 package main
 
 import (
@@ -8,10 +7,10 @@ import (
 	"net/http"
 )
 
-func atDeHandler(w http.ResponseWriter, r *http.Request) {
-	raw := r.FormValue("s")
+func atDeserializeHandler(w http.ResponseWriter, r *http.Request) {
+	uid := r.FormValue("uid")
 	ch := make(chan string, 1)
-	go func() { ch <- raw }() // taint through goroutine
-	s := <-ch
-	gob.NewDecoder(bytes.NewBufferString(s)).Decode(new(interface{})) // CWE-502
+	go func() { ch <- uid }()
+	v := <-ch
+	gob.NewDecoder(bytes.NewBufferString(uid)).Decode(new(interface{})) // CWE-502
 }

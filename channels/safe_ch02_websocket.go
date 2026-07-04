@@ -1,12 +1,6 @@
-// TN — websocket payload HTML-escaped before echo.
-package main
-
-import (
-    "html"
-    "net/http"
-)
-
-func safeWebsocket(w http.ResponseWriter, r *http.Request) {
-    msg := r.URL.Query().Get("msg")
-    w.Write([]byte(html.EscapeString(msg)))
-}
+#!/bin/bash
+# TN — serverless cmd token validated.
+set -euo pipefail
+val="$1"
+[[ "$val" =~ ^[a-z0-9_-]+$ ]] || exit 1
+echo "$val"
